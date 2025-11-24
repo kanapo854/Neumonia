@@ -138,7 +138,10 @@ class _HomeScreenState extends State<HomeScreen> {
               // Área de imagen
               Container(
                 width: double.infinity,
-                height: 300,
+                constraints: BoxConstraints(
+                  minHeight: 300,
+                  maxHeight: MediaQuery.of(context).size.height * 0.6,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.grey[200],
                   borderRadius: BorderRadius.circular(15),
@@ -156,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             if (snapshot.hasData) {
                               return Image.memory(
                                 snapshot.data!,
-                                fit: BoxFit.cover,
+                                fit: BoxFit.contain,
                               );
                             }
                             return const Center(child: CircularProgressIndicator());

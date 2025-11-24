@@ -197,8 +197,11 @@ class _ResultsScreenState extends State<ResultsScreen> {
             // Imagen analizada
             Center(
               child: Container(
-                height: 250,
                 width: double.infinity,
+                constraints: BoxConstraints(
+                  minHeight: 250,
+                  maxHeight: MediaQuery.of(context).size.height * 0.5,
+                ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   boxShadow: [
@@ -214,7 +217,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
                   child: _imageBytes != null
                       ? Image.memory(
                           _imageBytes!,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.contain,
                         )
                       : const Center(child: CircularProgressIndicator()),
                 ),
