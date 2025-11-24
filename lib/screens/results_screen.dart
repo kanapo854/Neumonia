@@ -197,13 +197,15 @@ class _ResultsScreenState extends State<ResultsScreen> {
             // Imagen analizada
             Center(
               child: Container(
-                width: double.infinity,
-                constraints: BoxConstraints(
-                  minHeight: 250,
-                  maxHeight: MediaQuery.of(context).size.height * 0.5,
-                ),
+                width: 700,
+                height: 700,
                 decoration: BoxDecoration(
+                  color: Colors.grey[200],
                   borderRadius: BorderRadius.circular(15),
+                  border: Border.all(
+                    color: Colors.grey[300]!,
+                    width: 2,
+                  ),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.1),
@@ -215,9 +217,12 @@ class _ResultsScreenState extends State<ResultsScreen> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
                   child: _imageBytes != null
-                      ? Image.memory(
-                          _imageBytes!,
-                          fit: BoxFit.contain,
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.memory(
+                            _imageBytes!,
+                            fit: BoxFit.contain,
+                          ),
                         )
                       : const Center(child: CircularProgressIndicator()),
                 ),
