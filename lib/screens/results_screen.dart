@@ -196,35 +196,37 @@ class _ResultsScreenState extends State<ResultsScreen> {
           children: [
             // Imagen analizada
             Center(
-              child: Container(
-                width: 700,
-                height: 700,
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(
-                    color: Colors.grey[300]!,
-                    width: 2,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 10,
-                      offset: const Offset(0, 5),
+              child: SizedBox(
+                width: 300,
+                height: 300,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(
+                      color: Colors.grey[300]!,
+                      width: 2,
                     ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: _imageBytes != null
-                      ? Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.memory(
-                            _imageBytes!,
-                            fit: BoxFit.contain,
-                          ),
-                        )
-                      : const Center(child: CircularProgressIndicator()),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 10,
+                        offset: const Offset(0, 5),
+                      ),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: _imageBytes != null
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.memory(
+                              _imageBytes!,
+                              fit: BoxFit.contain,
+                            ),
+                          )
+                        : const Center(child: CircularProgressIndicator()),
+                  ),
                 ),
               ),
             ),

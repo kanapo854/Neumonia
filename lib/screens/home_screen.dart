@@ -136,54 +136,58 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Área de imagen
-              Container(
-                width: 700,
-                height: 700,
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(
-                    color: Colors.grey[400]!,
-                    width: 2,
+              Center(
+                child: SizedBox(
+                  width: 300,
+                  height: 300,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(
+                        color: Colors.grey[400]!,
+                        width: 2,
+                      ),
+                    ),
+                    child: _selectedImage != null
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: FutureBuilder<Uint8List>(
+                              future: _selectedImage!.readAsBytes(),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Image.memory(
+                                      snapshot.data!,
+                                      fit: BoxFit.contain,
+                                    ),
+                                  );
+                                }
+                                return const Center(child: CircularProgressIndicator());
+                              },
+                            ),
+                          )
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.image_outlined,
+                                size: 80,
+                                color: Colors.grey[400],
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                'No hay imagen seleccionada',
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
                   ),
                 ),
-                child: _selectedImage != null
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: FutureBuilder<Uint8List>(
-                          future: _selectedImage!.readAsBytes(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Image.memory(
-                                  snapshot.data!,
-                                  fit: BoxFit.contain,
-                                ),
-                              );
-                            }
-                            return const Center(child: CircularProgressIndicator());
-                          },
-                        ),
-                      )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.image_outlined,
-                            size: 80,
-                            color: Colors.grey[400],
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            'No hay imagen seleccionada',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
               ),
               const SizedBox(height: 30),
 
