@@ -95,21 +95,59 @@ class _HomeScreenState extends State<HomeScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Seleccionar imagen'),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        title: Text(
+          'Seleccionar imagen',
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 20,
+            letterSpacing: 0.5,
+            color: Colors.blue.shade900,
+          ),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: const Icon(Icons.photo_library),
-              title: const Text('Galería'),
+              leading: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.blue.shade100,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(Icons.photo_library_rounded, color: Colors.blue.shade700),
+              ),
+              title: const Text(
+                'Galería',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 0.3,
+                ),
+              ),
               onTap: () {
                 Navigator.pop(context);
                 _pickImageFromGallery();
               },
             ),
+            const SizedBox(height: 8),
             ListTile(
-              leading: const Icon(Icons.camera_alt),
-              title: const Text('Cámara'),
+              leading: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.green.shade100,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(Icons.camera_alt_rounded, color: Colors.green.shade700),
+              ),
+              title: const Text(
+                'Cámara',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 0.3,
+                ),
+              ),
               onTap: () {
                 Navigator.pop(context);
                 _pickImageFromCamera();
@@ -125,11 +163,36 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Evaluación de Neumonía'),
+        title: const Text(
+          'EVALUACIÓN DE NEUMONÍA',
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0.5,
+            color: Colors.white,
+          ),
+        ),
         centerTitle: true,
-        elevation: 2,
+        elevation: 0,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.blue.shade700, Colors.blue.shade500],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
       ),
-      body: Center(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.blue.shade50, Colors.white, Colors.grey.shade50],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: const [0.0, 0.5, 1.0],
+          ),
+        ),
+        child: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20.0),
           child: Column(
@@ -138,20 +201,32 @@ class _HomeScreenState extends State<HomeScreen> {
               // Área de imagen
               Center(
                 child: SizedBox(
-                  width: 300,
-                  height: 300,
+                  width: 350,
+                  height: 350,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(
-                        color: Colors.grey[400]!,
-                        width: 2,
+                      gradient: LinearGradient(
+                        colors: [Colors.white, Colors.blue.shade50],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
+                      borderRadius: BorderRadius.circular(25),
+                      border: Border.all(
+                        color: Colors.blue.shade300,
+                        width: 3,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.blue.withOpacity(0.2),
+                          blurRadius: 20,
+                          offset: const Offset(0, 10),
+                          spreadRadius: 3,
+                        ),
+                      ],
                     ),
                     child: _selectedImage != null
                         ? ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(25),
                             child: FutureBuilder<Uint8List>(
                               future: _selectedImage!.readAsBytes(),
                               builder: (context, snapshot) {
@@ -171,17 +246,26 @@ class _HomeScreenState extends State<HomeScreen> {
                         : Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(
-                                Icons.image_outlined,
-                                size: 80,
-                                color: Colors.grey[400],
+                              Container(
+                                padding: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  color: Colors.blue.shade100,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  Icons.add_photo_alternate_outlined,
+                                  size: 80,
+                                  color: Colors.blue.shade600,
+                                ),
                               ),
-                              const SizedBox(height: 10),
+                              const SizedBox(height: 20),
                               Text(
                                 'No hay imagen seleccionada',
                                 style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 16,
+                                  color: Colors.grey.shade700,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 0.3,
                                 ),
                               ),
                             ],
@@ -191,62 +275,109 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 30),
 
-              // Botón para seleccionar imagen
-              SizedBox(
-                width: double.infinity,
-                height: 55,
-                child: ElevatedButton.icon(
-                  onPressed: _showImageSourceDialog,
-                  icon: const Icon(Icons.add_photo_alternate, size: 24),
-                  label: const Text(
-                    'Seleccionar Imagen',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 15),
-
-              // Botón de evaluación
-              SizedBox(
-                width: double.infinity,
-                height: 55,
-                child: ElevatedButton(
-                  onPressed: _isLoading ? null : _evaluateImage,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: _isLoading
-                      ? const SizedBox(
-                          height: 24,
-                          width: 24,
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 2,
+              // Botones en fila
+              Row(
+                children: [
+                  // Botón para seleccionar imagen
+                  Expanded(
+                    child: Container(
+                      height: 56,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        gradient: LinearGradient(
+                          colors: [Colors.blue.shade600, Colors.blue.shade700],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.blue.withOpacity(0.4),
+                            blurRadius: 12,
+                            offset: const Offset(0, 6),
                           ),
-                        )
-                      : const Text(
-                          'Evaluación',
+                        ],
+                      ),
+                      child: ElevatedButton.icon(
+                        onPressed: _showImageSourceDialog,
+                        icon: const Icon(Icons.add_photo_alternate_rounded, size: 22),
+                        label: const Text(
+                          'Seleccionar',
                           style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0.5,
                           ),
                         ),
-                ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          foregroundColor: Colors.white,
+                          shadowColor: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 15),
+
+                  // Botón de evaluación
+                  Expanded(
+                    child: Container(
+                      height: 56,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        gradient: LinearGradient(
+                          colors: _isLoading
+                              ? [Colors.grey.shade400, Colors.grey.shade500]
+                              : [Colors.green.shade600, Colors.green.shade700],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: (_isLoading ? Colors.grey : Colors.green).withOpacity(0.4),
+                            blurRadius: 12,
+                            offset: const Offset(0, 6),
+                          ),
+                        ],
+                      ),
+                      child: ElevatedButton(
+                        onPressed: _isLoading ? null : _evaluateImage,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          foregroundColor: Colors.white,
+                          shadowColor: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                        ),
+                        child: _isLoading
+                            ? const SizedBox(
+                                height: 24,
+                                width: 24,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 3,
+                                ),
+                              )
+                            : const Text(
+                                'Evaluación',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
         ),
+      ),
       ),
     );
   }
